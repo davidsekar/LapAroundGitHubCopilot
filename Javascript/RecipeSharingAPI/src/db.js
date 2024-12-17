@@ -99,6 +99,11 @@ class Database {
     const sql = `DELETE FROM recipe WHERE id = ?`;
     return this.run(sql, [id]);
   }
+
+  searchByTitle(title) {
+    const query = "SELECT * FROM recipe WHERE title = '" + title + "'";
+    return this.all(query);
+  }
 }
 
 module.exports = Database;

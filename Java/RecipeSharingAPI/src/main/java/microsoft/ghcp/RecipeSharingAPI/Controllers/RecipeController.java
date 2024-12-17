@@ -29,6 +29,11 @@ public class RecipeController {
         return recipeService.getRecipes();
     }
 
+    @GetMapping("/search")
+    public List<Recipe> findByTitle(@RequestParam String title) {
+        return recipeService.findByTitle(title);
+    }
+
     @PostMapping
     public Recipe createRecipe(@RequestBody Recipe recipe) {
         return recipeService.addRecipe(recipe);

@@ -4,12 +4,20 @@ import microsoft.ghcp.RecipeSharingAPI.Models.Recipe;
 import microsoft.ghcp.RecipeSharingAPI.Repositories.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
 public class RecipeService {
+
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private RecipeRepository recipeRepository;
@@ -42,5 +50,12 @@ public class RecipeService {
 
     public void deleteRecipe(Long id) {
         recipeRepository.deleteById(id);
+    }
+
+    public List<Recipe> findByTitle(String title){
+        String jql = "from Recipe where title = '" + title + "'";  // its not typo, it is jql :)
+        return entityManager.createQuery(jql, Recipe.class)
+                            .getResultList();
+        
     }
 }

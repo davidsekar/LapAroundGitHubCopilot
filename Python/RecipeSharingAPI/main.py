@@ -23,6 +23,11 @@ def get_one_recipe(id: int):
         raise HTTPException(status_code=404, detail="Recipe not found")
     return recipe
 
+@app.get("/api/Recipe/search/{title}", response_model=List[Recipe])
+def find_by_title(title: str):
+    recipes = db.find_by_title(title)
+    return [recipe for recipe in recipes]
+
 @app.post("/api/Recipe", response_model=int)
 def insert_recipe(recipe: Recipe):
     recipe_data = recipe.dict(exclude={"id"})

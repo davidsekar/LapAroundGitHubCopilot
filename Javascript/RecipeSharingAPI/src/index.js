@@ -35,6 +35,19 @@ app.get('/api/Recipe/:id', async (req, res) => {
     }
 });
 
+app.get('/api/Recipe/search/:title', async (req, res) => {
+    try {
+        const recipes = await db.searchByTitle(req.params.title);
+        if (recipes.length > 0) {
+            res.status(200).json(recipes);
+        } else {
+            res.status(400).json({ error: 'No recipes found with that title' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to search recipes' });
+    }
+});
+
 app.post('/api/Recipe', async (req, res) => {
     try {
         const newRecipe = await db.createRecipe(req.body);

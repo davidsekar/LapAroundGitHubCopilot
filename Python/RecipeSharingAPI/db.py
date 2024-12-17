@@ -48,6 +48,14 @@ class Database:
         cursor.execute(select_query, (id,))
         recipe = cursor.fetchone()
         return Recipe.parse_obj(self._row_to_dict(recipe)) if recipe else None
+    
+    def find_by_title(self, title):
+        cursor = self.conn.cursor()
+        query = f"SELECT * FROM recipe WHERE title = '{title}'"
+        cursor.execute(query)
+        recipes = cursor.fetchall()
+        return [Recipe.parse_obj(self._row_to_dict(recipe)) for recipe in recipes]
+
 
     def insert_recipe(self, recipe):
         insert_query = """
@@ -77,6 +85,7 @@ class Database:
         self.conn.commit()
         return cursor.rowcount
     
+            
     def _row_to_dict(self, row):
         return {
             "id": row[0],
