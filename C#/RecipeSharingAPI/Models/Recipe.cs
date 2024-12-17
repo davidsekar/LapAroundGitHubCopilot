@@ -30,5 +30,6 @@ namespace RecipeSharingAPI.Models
         [Required]
         [MaxLength(50)]
         public string? Title { get; set; }
+
     }
 }

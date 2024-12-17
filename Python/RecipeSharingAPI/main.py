@@ -28,6 +28,11 @@ def find_by_title(title: str):
     recipes = db.find_by_title(title)
     return [recipe for recipe in recipes]
 
+@app.get("/api/Recipe/paginate", response_model=List[Recipe])
+def paginate_recipes(page: int = 1, page_size: int = 10):
+    recipes = db.get_recipes_paginated(page, page_size)
+    return [recipe for recipe in recipes]
+
 @app.post("/api/Recipe", response_model=int)
 def insert_recipe(recipe: Recipe):
     recipe_data = recipe.dict(exclude={"id"})

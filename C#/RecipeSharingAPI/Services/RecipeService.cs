@@ -22,6 +22,16 @@ public class RecipeService : IRecipeService
         return _context.Recipes.AsNoTracking().ToList();
     }
 
+
+    public List<Recipe> GetRecipes(int pageNumber, int pageSize)
+    {
+        return _context.Recipes
+                        .AsNoTracking()
+                        .Take(pageNumber * pageSize)
+                        .Skip(pageNumber)
+                        .ToList();
+    }
+
     public Recipe CreateRecipe(Recipe recipe)
     {
         _context.Recipes.Add(recipe);

@@ -10,6 +10,9 @@ import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -29,6 +32,12 @@ public class RecipeService {
 
     public List<Recipe> getRecipes() {
         return recipeRepository.findAll();
+    }
+
+    public Page<Recipe> getRecipesWithPagination(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page-1, size-1);
+        return recipeRepository.findAll(pageable);
     }
 
     public Recipe addRecipe(Recipe recipe) {
@@ -53,7 +62,7 @@ public class RecipeService {
     }
 
     public List<Recipe> findByTitle(String title){
-        String jql = "from Recipe where title = '" + title + "'";  // its not typo, it is jql :)
+        String jql = "from Recipe where title = '" + title + "'";
         return entityManager.createQuery(jql, Recipe.class)
                             .getResultList();
         

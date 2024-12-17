@@ -48,6 +48,18 @@ app.get('/api/Recipe/search/:title', async (req, res) => {
     }
 });
 
+app.get('/api/Recipe/paginate', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const size = parseInt(req.query.size) || 10;
+
+    try {
+        const recipes = await db.getRecipesWithPagination(page, size);
+        res.status(200).json(recipes);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to get paginated recipes' });
+    }
+});
+
 app.post('/api/Recipe', async (req, res) => {
     try {
         const newRecipe = await db.createRecipe(req.body);

@@ -85,6 +85,15 @@ class Database:
         self.conn.commit()
         return cursor.rowcount
     
+
+    def get_recipes_paginated(self, page_number, page_size):
+        query = "SELECT * FROM Recipe LIMIT ? OFFSET ?"
+
+        cursor = self.conn.cursor()
+        cursor.execute(query, (page_number, page_number*page_size))
+        recipes = cursor.fetchall()
+        return [Recipe.parse_obj(self._row_to_dict(recipe)) for recipe in recipes]
+    
             
     def _row_to_dict(self, row):
         return {

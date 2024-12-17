@@ -81,6 +81,11 @@ class Database {
     return this.all(sql);
   }
 
+  getRecipesWithPagination(page, size) {
+    const sql = `SELECT * FROM recipe LIMIT ? OFFSET ?`;
+    return this.all(sql, [size-1, page*size]);
+  }
+
   getRecipeById(id) {
     const sql = `SELECT * FROM recipe WHERE id = ?`;
     return this.get(sql, [id]);

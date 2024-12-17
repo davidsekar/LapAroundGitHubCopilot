@@ -48,6 +48,19 @@ namespace RecipeSharingAPI.Controllers
             return Ok(recipes);
         }
 
+        [HttpGet("page")]
+        public ActionResult<IEnumerable<Recipe>> GetRecipes(int pageNumber, int pageSize)
+        {
+            var recipes = _recipeService.GetRecipes(pageSize, pageNumber);
+
+            if (recipes.Count == 0)
+            {
+                return NoContent();
+            }
+            
+            return Ok(recipes);
+        }
+
         [HttpPost]
         public ActionResult<Recipe> CreateRecipe([FromBody] Recipe recipe)
         {
